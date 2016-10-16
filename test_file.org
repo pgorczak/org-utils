@@ -1,0 +1,10 @@
+* Do the first thing
+  DEADLINE: <2016-10-18 Tue> SCHEDULED: <2016-10-17 Mon>
+Some description
+
+* TODO Do the second thing
+  SCHEDULED: <2016-10-18 Tue> DEADLINE: <2016-10-23 Sun>
+
+* DONE Do the third thing
+  CLOSED: [2016-10-16 Sun 22:18] DEADLINE: <2016-10-19 Wed>
+  
