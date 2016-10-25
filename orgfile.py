@@ -1,3 +1,4 @@
+import codecs
 import collections
 import datetime
 import re
@@ -105,3 +106,10 @@ def iter_agenda(org_str):
                     yield headline
 
     yield from recur(lines, {'level': 0})
+
+
+def agenda_from_file(path, codec='utf-8'):
+    with codecs.open(path, 'r', codec) as f:
+        org_str = f.read()
+
+    return tuple(iter_agenda(org_str))

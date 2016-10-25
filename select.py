@@ -1,33 +1,25 @@
-import codecs
+import os.path
 
 import appex
 import dialogs
 import reminders
 
-import utils
+import orgfile
 
 
-def select_from_file():
-    fp = appex.get_file_path()
-    if fp:
-        with codecs.open(fp, 'r', 'utf-8') as f:
-            org_str = f.read()
+def select(elements):
+    titles = tuple(e['headline'] for e in elements)
+    items = dict(zip(titles, elements))
 
-        elements = tuple(utils.iter_agenda(org_str))
-        titles = tuple(e['headline'] for e in elements)
-        items = dict(zip(titles, elements))
-
-        selected = tuple(items[s] for s in dialogs.list_dialog(
-            items=titles, multiple=True))
-
-        return selected
+    return tuple(items[s] for s in dialogs.list_dialog(
+        items=titles, multiple=True))
 
 
 def get_or_create_calendar(title):
     calendars = {c.title: c for c in reminders.get_all_calendars()}
 
     try:
-        return calendars['title']
+        return calendars[title]
     except KeyError:
         new_calendar = reminders.Calendar()
         new_calendar.title = title
@@ -35,8 +27,8 @@ def get_or_create_calendar(title):
         return new_calendar
 
 
-def create_reminder(item):
-    r = reminders.Reminder(c)
+def create_reminder(item, calendar):
+    r = reminders.Reminder(calendar)
     r.title = item['headline']
     if 'deadline' in item:
         r.due_date = item['deadline']
@@ -48,8 +40,12 @@ def create_reminder(item):
 
 
 if __name__ == '__main__':
-    c = get_or_create_calendar('org-utils')
-    for item in select_from_file():
+    fp = appex.get_file_path()
+    if not fp:
+        exit(0)
+    fn, ext = os.path.splitext(os.path.basename(fp))
+    c = get_or_create_calendar(fn)
+    for item in select(orgfile.agenda_from_file(fp)):
         # TODO get existing reminders
-        item['todo'] != 'DONE':
-            create_reminder(item).save()
+        if item['todo'] != 'DONE':
+            create_reminder(item, c).save()
