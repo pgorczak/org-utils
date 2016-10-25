@@ -7,6 +7,11 @@ reminders. Run it with [Pythonista](http://omz-software.com/pythonista/).
 
 **Stay tuned...**
 
+## Get started
+
+1. open the share sheet on an org file in iOS
+2. run *select.py* with Pythonista - select entries
+3. check out your new reminder list
 
 ## Testing
 We use `unittest` so tests work without additional dependencies.
